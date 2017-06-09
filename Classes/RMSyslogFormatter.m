@@ -8,6 +8,10 @@
 //
 
 #import "RMSyslogFormatter.h"
+#if TARGET_OS_IPHONE == 0
+#import "MACAddress.h"
+#endif
+
 
 static NSString * const RMAppUUIDKey = @"RMAppUUIDKey";
 
@@ -51,7 +55,11 @@ static NSString * const RMAppUUIDKey = @"RMAppUUIDKey";
         return _machineName;
     }
 
+#if TARGET_OS_IPHONE
     return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+#else
+    return GetMACAddressDisplayString();
+#endif
 }
 
 - (void)setMachineName:(NSString *)machineName {
